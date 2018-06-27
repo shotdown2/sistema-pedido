@@ -22,7 +22,6 @@ public class CategoriaController {
 
 		Categoria obj = categoriaService.buscar(id);
 		return ResponseEntity.ok().body(obj);
-
 	}
 
 }
