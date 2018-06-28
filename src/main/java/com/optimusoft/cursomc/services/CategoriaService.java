@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.optimusoft.cursomc.models.Categoria;
 import com.optimusoft.cursomc.repositories.CategoriaRepository;
+import com.optimusoft.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class CategoriaService {
@@ -23,9 +24,14 @@ public class CategoriaService {
 		repository.saveAll(lista);
 	}
 
+//	public Categoria buscar(Integer id) {
+//		Optional<Categoria> obj = repository.findById(id);
+//		return obj.orElse(null);
+//	}
+
 	public Categoria buscar(Integer id) {
 		Optional<Categoria> obj = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectNotFoundException(
+				"Objeto não encontrado! Id: " + id + ", Tipo: " + Categoria.class.getName()));
 	}
-
 }

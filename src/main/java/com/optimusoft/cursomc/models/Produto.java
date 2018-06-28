@@ -12,6 +12,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Produto implements Serializable {
 
@@ -28,6 +30,7 @@ public class Produto implements Serializable {
 
 	private Double preco;
 
+	@JsonBackReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Categoria> categorias = new ArrayList<>();
 
