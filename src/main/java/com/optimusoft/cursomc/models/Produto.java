@@ -33,6 +33,9 @@ public class Produto implements Serializable {
 	@JsonBackReference
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	private List<Categoria> categorias = new ArrayList<>();
+	
+	// @ManyToMany
+	// private List<Pedido> pedidos = new ArrayList<>();
 
 	public Produto() {
 		super();

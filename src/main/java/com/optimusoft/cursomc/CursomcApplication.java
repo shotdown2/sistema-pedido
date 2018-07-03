@@ -1,5 +1,6 @@
 package com.optimusoft.cursomc;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 
@@ -8,18 +9,25 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.optimusoft.cursomc.enums.EstadoPagamento;
 import com.optimusoft.cursomc.enums.TipoCliente;
 import com.optimusoft.cursomc.models.Categoria;
 import com.optimusoft.cursomc.models.Cidade;
 import com.optimusoft.cursomc.models.Cliente;
 import com.optimusoft.cursomc.models.Endereco;
 import com.optimusoft.cursomc.models.Estado;
+import com.optimusoft.cursomc.models.Pagamento;
+import com.optimusoft.cursomc.models.PagamentoComBoleto;
+import com.optimusoft.cursomc.models.PagamentoComCartao;
+import com.optimusoft.cursomc.models.Pedido;
 import com.optimusoft.cursomc.models.Produto;
 import com.optimusoft.cursomc.services.CategoriaService;
 import com.optimusoft.cursomc.services.CidadeService;
 import com.optimusoft.cursomc.services.ClienteService;
 import com.optimusoft.cursomc.services.EnderecoService;
 import com.optimusoft.cursomc.services.EstadoService;
+import com.optimusoft.cursomc.services.PagamentoService;
+import com.optimusoft.cursomc.services.PedidoService;
 import com.optimusoft.cursomc.services.ProdutoService;
 
 @SpringBootApplication
@@ -36,12 +44,18 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private EstadoService estadoService;
-	
+
 	@Autowired
 	private ClienteService clienteService;
-	
+
 	@Autowired
 	private EnderecoService enderecoService;
+
+	@Autowired
+	private PedidoService pedidoService;
+
+	@Autowired
+	private PagamentoService pagamentoService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -66,9 +80,19 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "00011122233", TipoCliente.PESSOA_FISICA,
 				"22223333", "99990000");
-		
+
 		Endereco e1 = new Endereco(null, "20530003", "Rua Freire", "200", "apto 203", "Jardim", cli1, c1);
 		Endereco e2 = new Endereco(null, "20530003", "Rua Outra rua", "300", "apto 503", "Centro", cli1, c2);
+
+		SimpleDateFormat sdf = new SimpleDateFormat("DD/mm/yyyy");
+
+		Pedido ped1 = new Pedido(null, sdf.parse("01/07/2018"), cli1, e1);
+		Pedido ped2 = new Pedido(null, sdf.parse("03/07/2018"), cli1, e2);
+
+		PagamentoComCartao pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
+
+		PagamentoComBoleto pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2,
+				sdf.parse("20/07/2018"), null);
 
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
@@ -79,8 +103,10 @@ public class CursomcApplication implements CommandLineRunner {
 
 		est1.getCidades().addAll(Arrays.asList(c1));
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
-		
+
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+
+		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
 		List<Categoria> listaCategoria = Arrays.asList(cat1, cat2);
 		List<Produto> listaProduto = Arrays.asList(p1, p2, p3);
@@ -88,7 +114,8 @@ public class CursomcApplication implements CommandLineRunner {
 		List<Cidade> listaCidade = Arrays.asList(c1, c2, c3);
 		List<Cliente> listaCliente = Arrays.asList(cli1);
 		List<Endereco> listaEndereco = Arrays.asList(e1, e2);
-		
+		List<Pedido> listaPedido = Arrays.asList(ped1, ped2);
+		List<Pagamento> listaPagamento = Arrays.asList(pagto1, pagto2);
 
 		categoriaService.gravarLista(listaCategoria);
 		produtoService.gravarLista(listaProduto);
@@ -96,7 +123,8 @@ public class CursomcApplication implements CommandLineRunner {
 		cidadeService.gravarLista(listaCidade);
 		clienteService.gravarLista(listaCliente);
 		enderecoService.gravarLista(listaEndereco);
-		
+		pedidoService.gravarLista(listaPedido);
+		pagamentoService.gravarLista(listaPagamento);
 
 	}
 }
