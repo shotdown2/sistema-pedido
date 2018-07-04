@@ -16,6 +16,7 @@ import com.optimusoft.cursomc.models.Cidade;
 import com.optimusoft.cursomc.models.Cliente;
 import com.optimusoft.cursomc.models.Endereco;
 import com.optimusoft.cursomc.models.Estado;
+import com.optimusoft.cursomc.models.ItemPedido;
 import com.optimusoft.cursomc.models.Pagamento;
 import com.optimusoft.cursomc.models.PagamentoComBoleto;
 import com.optimusoft.cursomc.models.PagamentoComCartao;
@@ -26,6 +27,7 @@ import com.optimusoft.cursomc.services.CidadeService;
 import com.optimusoft.cursomc.services.ClienteService;
 import com.optimusoft.cursomc.services.EnderecoService;
 import com.optimusoft.cursomc.services.EstadoService;
+import com.optimusoft.cursomc.services.ItemPedidoService;
 import com.optimusoft.cursomc.services.PagamentoService;
 import com.optimusoft.cursomc.services.PedidoService;
 import com.optimusoft.cursomc.services.ProdutoService;
@@ -56,6 +58,9 @@ public class CursomcApplication implements CommandLineRunner {
 
 	@Autowired
 	private PagamentoService pagamentoService;
+
+	@Autowired
+	private ItemPedidoService itemPedidoService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CursomcApplication.class, args);
@@ -94,6 +99,10 @@ public class CursomcApplication implements CommandLineRunner {
 		PagamentoComBoleto pagto2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, ped2,
 				sdf.parse("20/07/2018"), null);
 
+		ItemPedido ip1 = new ItemPedido(ped1, p1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, p3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, p2, 100.00, 1, 800.00);
+
 		cat1.getProdutos().addAll(Arrays.asList(p1, p2, p3));
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 
@@ -106,7 +115,14 @@ public class CursomcApplication implements CommandLineRunner {
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
 
-		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+
+		p1.getItens().addAll(Arrays.asList(ip1));
+		p2.getItens().addAll(Arrays.asList(ip3));
+		p3.getItens().addAll(Arrays.asList(ip2));
+
+		// cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
 		List<Categoria> listaCategoria = Arrays.asList(cat1, cat2);
 		List<Produto> listaProduto = Arrays.asList(p1, p2, p3);
@@ -116,6 +132,7 @@ public class CursomcApplication implements CommandLineRunner {
 		List<Endereco> listaEndereco = Arrays.asList(e1, e2);
 		List<Pedido> listaPedido = Arrays.asList(ped1, ped2);
 		List<Pagamento> listaPagamento = Arrays.asList(pagto1, pagto2);
+		List<ItemPedido> listaItemPedido = Arrays.asList(ip1, ip2, ip3);
 
 		categoriaService.gravarLista(listaCategoria);
 		produtoService.gravarLista(listaProduto);
@@ -125,6 +142,7 @@ public class CursomcApplication implements CommandLineRunner {
 		enderecoService.gravarLista(listaEndereco);
 		pedidoService.gravarLista(listaPedido);
 		pagamentoService.gravarLista(listaPagamento);
+		itemPedidoService.gravarLista(listaItemPedido);
 
 	}
 }
