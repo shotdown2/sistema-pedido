@@ -12,7 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.optimusoft.cursomc.enums.TipoCliente;
 
 @Entity
@@ -36,12 +36,12 @@ public class Cliente implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private TipoCliente tipo;
 
-	@JsonManagedReference
 	@OneToMany(mappedBy = "cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
-//	@OneToMany(mappedBy = "cliente")
-//	private List<Pedido> pedidos = new ArrayList<>();
+	@JsonIgnore
+	@OneToMany(mappedBy = "cliente")
+	private List<Pedido> pedidos = new ArrayList<>();
 
 	public Cliente() {
 		super();
@@ -123,13 +123,13 @@ public class Cliente implements Serializable {
 		this.celular = celular;
 	}
 
-//	public List<Pedido> getPedidos() {
-//		return pedidos;
-//	}
-//
-//	public void setPedidos(List<Pedido> pedidos) {
-//		this.pedidos = pedidos;
-//	}
+	public List<Pedido> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
+	}
 
 	@Override
 	public int hashCode() {

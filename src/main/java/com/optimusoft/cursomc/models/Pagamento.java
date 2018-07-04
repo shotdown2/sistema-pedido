@@ -12,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.optimusoft.cursomc.enums.EstadoPagamento;
 
 @Entity
@@ -30,6 +31,7 @@ public abstract class Pagamento implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private EstadoPagamento estado;
 
+	@JsonIgnore
 	@OneToOne 
 	private Pedido pedido;
 
