@@ -23,7 +23,7 @@ public class PedidoService {
 		repository.saveAll(lista);
 	}
 
-	public Pedido buscar(Integer id) {
+	public Pedido find(Integer id) {
 		Optional<Pedido> obj = repository.findById(id);
 		return obj.orElse(null);
 	}
