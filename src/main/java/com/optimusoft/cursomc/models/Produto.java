@@ -34,7 +34,7 @@ public class Produto implements Serializable {
 	private Double preco;
 
 	@JsonIgnore
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private List<Categoria> categorias = new ArrayList<>();
 
 	@JsonIgnore

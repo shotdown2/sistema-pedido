@@ -1,6 +1,8 @@
 package com.optimusoft.cursomc.controllers;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.optimusoft.cursomc.dto.CategoriaDTO;
 import com.optimusoft.cursomc.models.Categoria;
 import com.optimusoft.cursomc.services.CategoriaService;
 
@@ -29,6 +32,15 @@ public class CategoriaController {
 
 		Categoria obj = categoriaService.find(id);
 		return ResponseEntity.ok().body(obj);
+	}
+
+	@GetMapping()
+	public ResponseEntity<List<CategoriaDTO>> findAll() {
+
+		List<Categoria> list = categoriaService.findAll();
+		List<CategoriaDTO> listDto = list.stream().map(categoriaDto -> new CategoriaDTO(categoriaDto))
+				.collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDto);
 	}
 
 	@PostMapping
