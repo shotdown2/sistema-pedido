@@ -71,6 +71,11 @@ public class CursomcApplication implements CommandLineRunner {
 
 		Categoria cat1 = new Categoria(null, "Informática");
 		Categoria cat2 = new Categoria(null, "Escritório");
+		Categoria cat3 = new Categoria(null, "Cama mesa e banho");
+		Categoria cat4 = new Categoria(null, "Eletrônicos");
+		Categoria cat5 = new Categoria(null, "Jardinagem");
+		Categoria cat6 = new Categoria(null, "Decoração");
+		Categoria cat7 = new Categoria(null, "Perfumaria");
 
 		Produto p1 = new Produto(null, "Computador", 2000.00);
 		Produto p2 = new Produto(null, "Impressora", 800.00);
@@ -107,7 +112,7 @@ public class CursomcApplication implements CommandLineRunner {
 		cat2.getProdutos().addAll(Arrays.asList(p2));
 
 		p1.getCategorias().addAll(Arrays.asList(cat1));
-		p2.getCategorias().addAll(Arrays.asList(cat1, cat2));
+		p2.getCategorias().addAll(Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7));
 		p3.getCategorias().addAll(Arrays.asList(cat1));
 
 		est1.getCidades().addAll(Arrays.asList(c1));
@@ -124,7 +129,7 @@ public class CursomcApplication implements CommandLineRunner {
 
 		// cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
 
-		List<Categoria> listaCategoria = Arrays.asList(cat1, cat2);
+		List<Categoria> listaCategoria = Arrays.asList(cat1, cat2, cat3, cat4, cat5, cat6, cat7);
 		List<Produto> listaProduto = Arrays.asList(p1, p2, p3);
 		List<Estado> listaEstado = Arrays.asList(est1, est2);
 		List<Cidade> listaCidade = Arrays.asList(c1, c2, c3);
