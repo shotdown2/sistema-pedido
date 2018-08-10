@@ -16,15 +16,15 @@ public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
-	
-	@NotEmpty(message="Campo nome obrigatório")
-	@Length(min=5, max=80, message="O tamanho deve ser entre 5 e 80 caracteres")
+
+	@NotEmpty(message = "Campo nome obrigatório")
+	@Length(min = 5, max = 80, message = "O tamanho deve ser entre 5 e 80 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {
 		super();
 	}
-	
+
 	public CategoriaDTO(Categoria categoria) {
 		this.id = categoria.getId();
 		this.nome = categoria.getNome();
