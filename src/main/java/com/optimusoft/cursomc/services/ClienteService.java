@@ -11,8 +11,12 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.optimusoft.cursomc.dto.ClienteDTO;
+import com.optimusoft.cursomc.dto.ClienteNewDTO;
+import com.optimusoft.cursomc.models.Cidade;
 import com.optimusoft.cursomc.models.Cliente;
+import com.optimusoft.cursomc.models.Endereco;
 import com.optimusoft.cursomc.repositories.ClienteRepository;
+import com.optimusoft.cursomc.repositories.EnderecoRepository;
 import com.optimusoft.cursomc.services.exceptions.DataIntegrityException;
 import com.optimusoft.cursomc.services.exceptions.ObjectNotFoundException;
 
@@ -21,6 +25,9 @@ public class ClienteService {
 
 	@Autowired
 	private ClienteRepository repository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public void gravar(Cliente cliente) {
 		repository.save(cliente);
@@ -38,6 +45,13 @@ public class ClienteService {
 
 	public List<Cliente> findAll() {
 		return (List<Cliente>) repository.findAll();
+	}
+
+	public Cliente insert(Cliente obj) {
+		obj.setId(null);
+		obj = repository.save(obj);
+		enderecoRepository.saveAll(obj.getEnderecos());
+		return obj;
 	}
 
 	public Cliente update(Cliente obj) {
@@ -67,7 +81,20 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null,null, null);
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null, null);
 	}
 
+	public Cliente fromDTO(ClienteNewDTO objDto) {
+		
+		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
+				objDto.getTipo(), objDto.getTelefone(), objDto.getCelular());
+
+		Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
+
+		Endereco endereco = new Endereco(null, objDto.getCep(), objDto.getLogradouro(), objDto.getNumero(),
+				objDto.getComplemento(), objDto.getBairro(), cliente, cidade);
+		cliente.getEnderecos().add(endereco);
+		
+		return cliente;
+	}
 }
