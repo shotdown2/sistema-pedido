@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -29,7 +30,10 @@ public class Cliente implements Serializable {
 	private Integer id;
 
 	private String nome;
+
+	@Column(unique = true)
 	private String email;
+	
 	private String cpfOuCnpj;
 	private String telefone;
 	private String celular;
