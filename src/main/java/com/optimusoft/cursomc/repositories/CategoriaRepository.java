@@ -1,5 +1,7 @@
 package com.optimusoft.cursomc.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
@@ -11,5 +13,7 @@ import com.optimusoft.cursomc.models.Categoria;
 public interface CategoriaRepository extends CrudRepository<Categoria, Integer> {
 
 	Page<Categoria> findAll(Pageable pageRequest);
+	
+	List<Categoria> findAllById(List<Integer> ids);
 
 }
