@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.optimusoft.cursomc.controllers.utils.URL;
+import com.optimusoft.cursomc.dto.ProdutoDTO;
 import com.optimusoft.cursomc.models.Produto;
 import com.optimusoft.cursomc.services.ProdutoService;
 

@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.optimusoft.cursomc.controllers.ProdutoDTO;
+import com.optimusoft.cursomc.dto.ProdutoDTO;
 import com.optimusoft.cursomc.models.Categoria;
 import com.optimusoft.cursomc.models.Produto;
 import com.optimusoft.cursomc.repositories.CategoriaRepository;

@@ -1,4 +1,4 @@
-package com.optimusoft.cursomc.controllers;
+package com.optimusoft.cursomc.dto;
 
 import java.io.Serializable;
 
