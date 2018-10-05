@@ -1,5 +1,6 @@
 package com.optimusoft.cursomc.services;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.optimusoft.cursomc.dto.ClienteDTO;
 import com.optimusoft.cursomc.dto.ClienteNewDTO;
@@ -28,6 +30,9 @@ public class ClienteService {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private S3Service s3Service;
 
 	public void gravar(Cliente cliente) {
 		repository.save(cliente);
@@ -85,7 +90,7 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
-		
+
 		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
 				objDto.getTipo(), objDto.getTelefone(), objDto.getCelular());
 
@@ -94,7 +99,12 @@ public class ClienteService {
 		Endereco endereco = new Endereco(null, objDto.getCep(), objDto.getLogradouro(), objDto.getNumero(),
 				objDto.getComplemento(), objDto.getBairro(), cliente, cidade);
 		cliente.getEnderecos().add(endereco);
-		
+
 		return cliente;
+	}
+
+	public URI uploadProfilePicture(MultipartFile multipartFile) {
+
+		return s3Service.uploadFile(multipartFile);
 	}
 }

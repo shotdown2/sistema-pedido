@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.optimusoft.cursomc.dto.ClienteDTO;
@@ -38,7 +39,7 @@ public class ClienteController {
 		Cliente obj = clienteService.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
-	
+
 	@GetMapping()
 	public ResponseEntity<List<ClienteDTO>> findAll() {
 
@@ -47,7 +48,7 @@ public class ClienteController {
 				.collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto) {
 
@@ -57,10 +58,9 @@ public class ClienteController {
 		return ResponseEntity.created(uri).build();
 	}
 
-	
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id) {
-		
+
 		Cliente obj = clienteService.fromDTO(objDto);
 		obj.setId(id);
 		obj = clienteService.update(obj);
@@ -73,17 +73,24 @@ public class ClienteController {
 		clienteService.delete(id);
 		return ResponseEntity.noContent().build();
 	}
-	
+
 	@GetMapping("/page")
-	public ResponseEntity<Page<ClienteDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
+	public ResponseEntity<Page<ClienteDTO>> findPage(@RequestParam(value = "page", defaultValue = "0") Integer page,
+			@RequestParam(value = "linesPerPage", defaultValue = "24") Integer linesPerPage,
+			@RequestParam(value = "orderBy", defaultValue = "nome") String orderBy,
+			@RequestParam(value = "direction", defaultValue = "ASC") String direction) {
 
 		Page<Cliente> list = clienteService.findPage(page, linesPerPage, orderBy, direction);
 		Page<ClienteDTO> listDto = list.map(clienteDto -> new ClienteDTO(clienteDto));
 		return ResponseEntity.ok().body(listDto);
+	}
+
+	@PostMapping("/picture")
+	public ResponseEntity<Void> uploadProfilePicture(
+			@RequestParam(name = "multipartFile") MultipartFile multipartFile) {
+
+		URI uri = clienteService.uploadProfilePicture(multipartFile);
+		return ResponseEntity.created(uri).build();
 	}
 
 }
