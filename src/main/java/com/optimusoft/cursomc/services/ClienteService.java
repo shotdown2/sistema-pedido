@@ -9,6 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,6 +34,9 @@ public class ClienteService {
 
 	@Autowired
 	private S3Service s3Service;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
 
 	public void gravar(Cliente cliente) {
 		repository.save(cliente);
@@ -86,12 +90,12 @@ public class ClienteService {
 	}
 
 	public Cliente fromDTO(ClienteDTO objDto) {
-		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null, null);
+		return new Cliente(objDto.getId(), objDto.getNome(), objDto.getEmail(), null, null, null, null, null);
 	}
 
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 
-		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
+		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), bCrypt.encode(objDto.getSenha()), objDto.getCpfOuCnpj(),
 				objDto.getTipo(), objDto.getTelefone(), objDto.getCelular());
 
 		Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);

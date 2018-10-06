@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.optimusoft.cursomc.enums.EstadoPagamento;
@@ -51,6 +52,9 @@ public class DBService {
 
 	@Autowired
 	private ItemPedidoService itemPedidoService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCrypt;
 
 	public void instantiateTestDatabase() throws ParseException {
 
@@ -81,7 +85,7 @@ public class DBService {
 		Cidade c2 = new Cidade(null, "São Paulo", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "00011122233", TipoCliente.PESSOA_FISICA,
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", bCrypt.encode("123456"), "00011122233", TipoCliente.PESSOA_FISICA,
 				"22223333", "99990000");
 
 		Endereco e1 = new Endereco(null, "20530003", "Rua Freire", "200", "apto 203", "Jardim", cli1, c1);
