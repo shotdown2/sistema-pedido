@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.optimusoft.cursomc.enums.EstadoPagamento;
+import com.optimusoft.cursomc.enums.Perfil;
 import com.optimusoft.cursomc.enums.TipoCliente;
 import com.optimusoft.cursomc.models.Categoria;
 import com.optimusoft.cursomc.models.Cidade;
@@ -85,16 +86,22 @@ public class DBService {
 		Cidade c2 = new Cidade(null, "São Paulo", est2);
 		Cidade c3 = new Cidade(null, "Campinas", est2);
 
-		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", bCrypt.encode("123456"), "00011122233", TipoCliente.PESSOA_FISICA,
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", bCrypt.encode("123456"), "00011122233",TipoCliente.PESSOA_FISICA,
 				"22223333", "99990000");
+		
+		Cliente cli2 = new Cliente(null, "Raphael Braga", "raphael@gmail.com", bCrypt.encode("123"), "11122233344",TipoCliente.PESSOA_FISICA,
+				"44445555", "99998888");
+		cli2.setPerfis(Perfil.ADMIN);
 
-		Endereco e1 = new Endereco(null, "20530003", "Rua Freire", "200", "apto 203", "Jardim", cli1, c1);
-		Endereco e2 = new Endereco(null, "20530003", "Rua Outra rua", "300", "apto 503", "Centro", cli1, c2);
+		Endereco e1 = new Endereco(null, "20350003", "Rua Freire", "200", "apto 203", "Jardim", cli1, c1);
+		Endereco e2 = new Endereco(null, "20350004", "Rua Outra rua", "300", "apto 503", "Centro", cli1, c2);
+		Endereco e3 = new Endereco(null, "20350005", "Rua Outra rua", "20", "apto 303", "Centro", cli2, c3);
 
 		SimpleDateFormat sdf = new SimpleDateFormat("DD/mm/yyyy");
 
 		Pedido ped1 = new Pedido(null, sdf.parse("01/07/2018"), cli1, e1);
 		Pedido ped2 = new Pedido(null, sdf.parse("03/07/2018"), cli1, e2);
+		
 
 		PagamentoComCartao pagto1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, ped1, 6);
 
@@ -129,6 +136,7 @@ public class DBService {
 		est2.getCidades().addAll(Arrays.asList(c2, c3));
 
 		cli1.getEnderecos().addAll(Arrays.asList(e1, e2));
+		cli2.getEnderecos().addAll(Arrays.asList(e3));
 
 		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
 		ped2.getItens().addAll(Arrays.asList(ip3));
@@ -143,8 +151,8 @@ public class DBService {
 		List<Produto> listaProduto = Arrays.asList(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11);
 		List<Estado> listaEstado = Arrays.asList(est1, est2);
 		List<Cidade> listaCidade = Arrays.asList(c1, c2, c3);
-		List<Cliente> listaCliente = Arrays.asList(cli1);
-		List<Endereco> listaEndereco = Arrays.asList(e1, e2);
+		List<Cliente> listaCliente = Arrays.asList(cli1, cli2);
+		List<Endereco> listaEndereco = Arrays.asList(e1, e2, e3);
 		List<Pedido> listaPedido = Arrays.asList(ped1, ped2);
 		List<Pagamento> listaPagamento = Arrays.asList(pagto1, pagto2);
 		List<ItemPedido> listaItemPedido = Arrays.asList(ip1, ip2, ip3);

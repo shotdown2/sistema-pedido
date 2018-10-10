@@ -2,11 +2,14 @@ package com.optimusoft.cursomc.dto;
 
 import java.io.Serializable;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.optimusoft.cursomc.enums.TipoCliente;
 import com.optimusoft.cursomc.models.Cliente;
 import com.optimusoft.cursomc.services.validation.ClienteUpdate;
 
@@ -27,6 +30,12 @@ public class ClienteDTO implements Serializable {
 	@NotEmpty(message = "Campo email obrigatório")
 	@Email(message = "Email inválido")
 	private String email;
+
+	@NotEmpty(message = "Preenchimento obrigatório")
+	private String cpfOuCnpj;
+
+	@Enumerated(EnumType.STRING)
+	private TipoCliente tipo;
 
 	public ClienteDTO() {
 		super();
@@ -60,6 +69,22 @@ public class ClienteDTO implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getCpfOuCnpj() {
+		return cpfOuCnpj;
+	}
+
+	public void setCpfOuCnpj(String cpfOuCnpj) {
+		this.cpfOuCnpj = cpfOuCnpj;
+	}
+
+	public TipoCliente getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoCliente tipo) {
+		this.tipo = tipo;
 	}
 
 }

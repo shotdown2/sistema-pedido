@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.optimusoft.cursomc.enums.Perfil;
 import com.optimusoft.cursomc.enums.TipoCliente;
 
 @Entity
@@ -41,6 +42,10 @@ public class Cliente implements Serializable {
 	private String telefone;
 	private String celular;
 
+	
+	@Enumerated(EnumType.STRING)
+	private Perfil perfil;
+
 	@Enumerated(EnumType.STRING)
 	private TipoCliente tipo;
 
@@ -53,10 +58,11 @@ public class Cliente implements Serializable {
 
 	public Cliente() {
 		super();
+		setPerfis(Perfil.CLIENTE);
 	}
 
-	public Cliente(Integer id, String nome, String email, String senha, String cpfOuCnpj, TipoCliente tipo, String telefone,
-			String celular) {
+	public Cliente(Integer id, String nome, String email, String senha, String cpfOuCnpj,
+			TipoCliente tipo, String telefone, String celular) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -64,6 +70,7 @@ public class Cliente implements Serializable {
 		this.senha = senha;
 		this.cpfOuCnpj = cpfOuCnpj;
 		this.tipo = (tipo == null) ? null : tipo;
+		setPerfis(Perfil.CLIENTE);
 		this.telefone = telefone;
 		this.celular = celular;
 	}
@@ -114,6 +121,14 @@ public class Cliente implements Serializable {
 
 	public void setTipo(TipoCliente tipo) {
 		this.tipo = tipo;
+	}
+
+	public Perfil getPerfis() {
+		return perfil;
+	}
+
+	public void setPerfis(Perfil perfis) {
+		this.perfil = perfis;
 	}
 
 	public List<Endereco> getEnderecos() {

@@ -96,7 +96,7 @@ public class ClienteService {
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 
 		Cliente cliente = new Cliente(null, objDto.getNome(), objDto.getEmail(), bCrypt.encode(objDto.getSenha()), objDto.getCpfOuCnpj(),
-				objDto.getTipo(), objDto.getTelefone(), objDto.getCelular());
+				objDto.getTipo(),objDto.getTelefone(), objDto.getCelular());
 
 		Cidade cidade = new Cidade(objDto.getCidadeId(), null, null);
 

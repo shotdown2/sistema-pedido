@@ -13,8 +13,10 @@ import org.springframework.web.servlet.HandlerMapping;
 
 import com.optimusoft.cursomc.controllers.exceptions.FieldMessage;
 import com.optimusoft.cursomc.dto.ClienteDTO;
+import com.optimusoft.cursomc.enums.TipoCliente;
 import com.optimusoft.cursomc.models.Cliente;
 import com.optimusoft.cursomc.repositories.ClienteRepository;
+import com.optimusoft.cursomc.services.validation.utils.ValidaCpfECnpj;
 
 public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate, ClienteDTO> {
 	
@@ -41,6 +43,15 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
 		if(clienteAux != null && !clienteAux.getId().equals(uriId)) {
 			list.add(new FieldMessage("email", "Email já cadastrado."));
 		}
+		
+		if(objDto.getTipo().equals(TipoCliente.PESSOA_FISICA) && !ValidaCpfECnpj.isValidCpf(objDto.getCpfOuCnpj())) {
+			list.add(new FieldMessage("cpfOuCnpj", "CPF inválido."));
+		}
+		
+		if(objDto.getTipo().equals(TipoCliente.PESSOA_JURIDICA) && !ValidaCpfECnpj.isValidCnpj(objDto.getCpfOuCnpj())) {
+			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido."));
+		}
+		
 			
 		
 		
